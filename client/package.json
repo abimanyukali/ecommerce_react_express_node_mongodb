@@ -1,4 +1,4 @@
-{
+{ "homepage": "https://abimanyukali.github.io/ecommerce_react_express_node_mongodb/",
   "name": "client",
   "version": "0.1.0",
   "private": true,
@@ -25,6 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy":"gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

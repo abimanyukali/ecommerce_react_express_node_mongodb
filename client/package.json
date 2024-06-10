@@ -1,4 +1,4 @@
-{ "homepage": "https://abimanyukali.github.io/ecommerce_react_express_node_mongodb/",
+{
   "name": "client",
   "version": "0.1.0",
   "private": true,

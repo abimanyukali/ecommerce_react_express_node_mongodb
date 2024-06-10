@@ -5,10 +5,11 @@ import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
 import { Add, Remove } from '@mui/icons-material';
 import { mobile } from '../responsive';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import StripeCheckout from 'react-stripe-checkout';
 import { userRequest } from '../requestMethods';
 import { useHistory } from 'react-router-dom';
+import { decQuantity, incQuantity, deleteProduct } from '../redux/cartRedux';
 const KEY = process.env.REACT_APP_STRIPE;
 console.log(KEY);
 console.log('key');
@@ -151,8 +152,27 @@ const Button = styled.button`
   color: white;
   font-weight: 600;
 `;
+const DelButton = styled.button`
+  width: 60%;
+  padding: 5px;
+  margin: 10px;
+  background-color: black;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+`;
+const AddButton = styled.button`
+  width: 60%;
+  padding: 5px;
+  margin: 10px;
+  background-color: black;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+`;
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
   const history = useHistory();
@@ -173,6 +193,15 @@ const Cart = () => {
     stripeToken && cart.total > 1 && makeRequest();
   }, [stripeToken, cart.total, history]);
 
+  const increment = (product_id) => {
+    dispatch(incQuantity({ postId: product_id }));
+  };
+  const decrement = (product_id) => {
+    dispatch(decQuantity({ postId: product_id }));
+  };
+  const deleteproduct = (id, index) => {
+    dispatch(deleteProduct({ postId: id, index: index }));
+  };
   return (
     <Container>
       <Navbar />
@@ -189,8 +218,8 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            {cart.products.map((product) => (
-              <Product>
+            {cart.products.map((product, index) => (
+              <Product key={index}>
                 <ProductDetail>
                   <Image src={product.img} />
                   <Details>
@@ -200,6 +229,7 @@ const Cart = () => {
                     <ProductId>
                       <b>ID:</b> {product._id}
                     </ProductId>
+                    <b>Color:</b>
                     <ProductColor color={product.color} />
                     <ProductSize>
                       <b>Size:</b> {product.size}
@@ -208,13 +238,20 @@ const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Add />
+                    <AddButton onClick={() => increment(product._id)}>
+                      <Add />
+                    </AddButton>
                     <ProductAmount>{product.quantity}</ProductAmount>
-                    <Remove />
+                    <AddButton onClick={() => decrement(product._id)}>
+                      <Remove />
+                    </AddButton>
                   </ProductAmountContainer>
                   <ProductPrice>
                     ${product.price * product.quantity}
                   </ProductPrice>
+                  <DelButton onClick={() => deleteproduct(product._id, index)}>
+                    DELETE
+                  </DelButton>
                 </PriceDetail>
               </Product>
             ))}

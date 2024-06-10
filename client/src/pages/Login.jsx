@@ -69,7 +69,7 @@ const Login = () => {
   const{isFetching,error}=useSelector((state)=>state.user)
   const handleClick =(e)=>{
     e.preventDefault();
-    login(dispatch,{username,password});
+    login(dispatch,{username:username,password:password});
   }
   return (
     <Container>

@@ -9,7 +9,7 @@ import { mobile } from '../responsive';
 import { useLocation } from 'react-router-dom';
 import { publicRequest } from '../requestMethods';
 import { addProduct } from '../redux/cartRedux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -122,6 +122,8 @@ const Product = () => {
   const [color, setColor] = useState('');
   const [size, setSize] = useState('');
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.cart.products);
+  console.log(user);
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -145,7 +147,7 @@ const Product = () => {
   const handleClick = () => {
     dispatch(addProduct({ ...product, quantity, color, size }));
   };
-  console.log(product);
+console.log(product);
   return (
     <Container>
       <Navbar />

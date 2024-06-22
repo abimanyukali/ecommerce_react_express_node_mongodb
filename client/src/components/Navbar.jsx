@@ -4,8 +4,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Badge } from '@mui/material';
 import { mobile } from '../responsive';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { logOutStart, logOutSuccess, loginFailure } from '../redux/userRedux';
+import { useHistory } from 'react-router-dom'
 const Container = styled.div`
   height: 60px;
 
@@ -61,10 +63,40 @@ const MenuItem = styled.div`
   cursor: pointer;
   ${mobile({ fontSize: '12px', marginLeft: '10px' })}
 `;
+const ButtonOut = styled.button`
+  background-color: #df5454ac;
+  padding: 5px;
+  margin-left: 15px;
+  border: none;
+  border-radius: 15px;
+  color: white;
+`;
+const ButtonIn = styled.button`
+  background-color: #6edf60ac;
+  padding: 5px;
+  margin-left: 15px;
+  border: none;
+  border-radius: 15px;
+  color: white;
+`;
 
 export default function Navbar() {
+  const dispatch = useDispatch();
+  const history = useHistory()
+  const handleClick = () => {
+    dispatch(logOutStart());
+    try {
+      dispatch(logOutSuccess());
+    } catch (error) {
+      dispatch(loginFailure());
+    }
+  };
+  const handleLogin=()=>{
+    history.push("/login")
+  }
   const quantity = useSelector((state) => state.cart.quantity);
-
+  const user = useSelector((state) => state.user.currentUser);
+  console.log(user);
   return (
     <Container>
       <Wrapper>
@@ -88,6 +120,8 @@ export default function Navbar() {
               </Badge>
             </MenuItem>
           </Link>
+          {user && <ButtonOut onClick={handleClick}>logout</ButtonOut>}
+          {!user && <ButtonIn onClick={handleLogin}>login</ButtonIn>}
         </Right>
       </Wrapper>
     </Container>

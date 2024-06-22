@@ -7,6 +7,7 @@ const authRoute = require('./routers/auth');
 const productRoute = require('./routers/product');
 const cartRoute = require('./routers/cart');
 const orderRoute = require('./routers/orders');
+const routers =require("./routers/otpMain")
 const cors = require('cors');
 dotenv.config();
 
@@ -22,7 +23,7 @@ app.use('/api/users', userRoute);
 app.use('/api/products', productRoute);
 app.use('/api/carts', cartRoute);
 app.use('/api/orders', orderRoute);
-
+app.use("/api/v1",routers)
 app.listen(process.env.PORT || 5002, () => {
   console.log(`Backend server is running ${process.env.PORT}`);
 });

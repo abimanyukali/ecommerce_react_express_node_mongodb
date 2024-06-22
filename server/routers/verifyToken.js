@@ -37,7 +37,25 @@ const verifyTokenAndAdmin = (req, res, next) => {
   });
 };
 
+const verifyTokenJwt = (req, res, next) => {
+  const authHeader = req.params.token;
+  
+  if (authHeader) {
+    jwt.verify(authHeader, process.env.JWT_SEC, (err, user) => {
+      if (err) res.status(403).json('Token is not valid!');
+     if(user){
+      req.user = user;
+      
+      next();
+     }
+    });
+  } else {
+    return res.status(401).json('You are not authenticated!');
+  }
+};
+
 module.exports = {
+  verifyTokenJwt,
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,

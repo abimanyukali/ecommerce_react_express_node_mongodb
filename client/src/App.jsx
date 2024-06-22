@@ -8,13 +8,18 @@ import Register from './pages/Register';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Success from './pages/Success';
 import { useSelector } from 'react-redux';
+import ForgetPassword from './pages/forgetPassword';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
+  console.log(user);
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
+     
+
+          <Route exact path="/" >
           <Home />
         </Route>
         <Route path="/products/:category">
@@ -33,6 +38,13 @@ function App() {
         <Route path="/register">
           {user ? <Redirect to="/" /> : <Register />}
         </Route>
+        <Route path="/forgotPassword/">
+          <ForgetPassword />
+        </Route>
+        <Route path="/reset-password/:token">
+          <ResetPassword/>
+        </Route>
+
       </Switch>
     </Router>
   );

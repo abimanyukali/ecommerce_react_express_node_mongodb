@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../redux/apiCalls';
-
+import { Link } from 'react-router-dom';
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -48,44 +48,53 @@ const Button = styled.button`
   background-color: #1a9999ac;
   cursor: pointer;
   margin-bottom: 10px;
-  &:disabled{
-    color:green;
+  &:disabled {
+    color: green;
     cursor: not-allowed;
   }
 `;
-const Link = styled.a`
+const Links = styled.a`
   margin: 5px 0px;
   font-style: 12px;
   text-decoration: underline;
   cursor: pointer;
 `;
-const Error =styled.span`
-  color:red;
-`
+const Error = styled.span`
+  color: red;
+`;
 const Login = () => {
-  const[username,setUsername] =useState('')
-  const[password,setPassword] =useState('')
-  const dispatch =useDispatch()
-  const{isFetching,error}=useSelector((state)=>state.user)
-  const handleClick =(e)=>{
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
+  const handleClick = (e) => {
     e.preventDefault();
-    login(dispatch,{username:username,password:password});
-  }
+    login(dispatch, { email: email, password: password });
+  };
   return (
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT </Title>
         <Form>
-          <Input placeholder="username"onChange={(e)=>setUsername(e.target.value)} />
+          <Input
+            placeholder="email"
+            type='email'
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-          <Input placeholder="password"
-          type='password'
-          onChange={(e)=>setPassword(e.target.value)} />
+          <Input
+            placeholder="password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-          <Button onClick={handleClick}disabled={isFetching}>LOGIN</Button>
-          {error&&<Error>Something went Wrong...</Error>}
-          <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
+          <Button onClick={handleClick} disabled={isFetching}>
+            LOGIN
+          </Button>
+          <Link to="/forgotPassword">forget Password</Link>
+          {error && <Error>Something went Wrong...</Error>}
+          <Links>DO NOT YOU REMEMBER THE PASSWORD?</Links>
+          <Links>CREATE A NEW ACCOUNT</Links>
         </Form>
       </Wrapper>
     </Container>

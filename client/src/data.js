@@ -15,7 +15,7 @@ import cap2 from '../src/asset/cap2.jpg';
 import bag from '../src/asset/bag.jpg';
 import bag2 from '../src/asset/bag2.jpg';
 import shirtblack from '../src/asset/shirt-black.jpg';
-import shirt from '../src/asset/shirt.jpg';
+import shirt from '../src/asset/shirt.png';
 import tshirt from '../src/asset/tshirt.jpg';
 import yellowtshirt from '../src/asset/yellow-tshirt.jpg';
 
